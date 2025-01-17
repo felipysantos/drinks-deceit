@@ -1,0 +1,25 @@
+{
+  "dialogues": [
+    {
+      "key": "start",
+      "characterName": "Barman",
+      "line": "Você quer saber sobre o crime?",
+      "options": [
+        { "text": "Sim, me diga mais.", "next": "dialogue2" },
+        { "text": "Não, não quero saber.", "next": "dialogue3" }
+      ]
+    },
+    {
+      "key": "dialogue2",
+      "characterName": "Barman",
+      "line": "Certo, vou te contar tudo.",
+      "options": []
+    },
+    {
+      "key": "dialogue3",
+      "characterName": "Barman",
+      "line": "Tudo bem, boa sorte.",
+      "options": []
+    }
+  ]
+}
