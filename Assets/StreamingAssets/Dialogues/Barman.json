@@ -13,7 +13,10 @@
       "key": "dialogue2",
       "characterName": "Barman",
       "line": "Certo, vou te contar tudo.",
-      "options": []
+      "options": [
+        { "text": "Sim, me diga mais.", "next": "dialogue2" },
+        { "text": "Não, não quero saber.", "next": "dialogue3" }
+      ]
     },
     {
       "key": "dialogue3",

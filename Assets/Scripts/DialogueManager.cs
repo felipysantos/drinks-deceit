@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 
 [System.Serializable]
@@ -29,14 +30,18 @@ public class DialogueManager : MonoBehaviour
     public GameObject cardPrefab;
     public Transform cardParent;
     private DialogueDatabase dialogueDatabase;
-    private readonly Dialogue currentDialogue;
+    private Dialogue currentDialogue;
 
     public string dialoguesFolder = "Dialogues";
 
+    [Header("UI Elements")]
+    public GameObject dialoguePanel; // Painel de diálogo
+    public Image characterImage; // Imagem do personagem
+    public Text characterNameText; // Nome do personagem
+    public Text dialogueText;
+
     void Start()
     {
-        LoadNpcDialogue("Barman");
-        SetDialogue("start");
     }
 
     public void LoadNpcDialogue(string npcName)
@@ -60,11 +65,11 @@ public class DialogueManager : MonoBehaviour
         if (dialogueDatabase != null)
         {
 
-            Dialogue currentDialogue = dialogueDatabase.dialogues.Find(d => d.key == dialogueKey);
+             currentDialogue = dialogueDatabase.dialogues.Find(d => d.key == dialogueKey);
 
             if (currentDialogue != null)
             {
-                DisplayDialogue(currentDialogue);
+                DisplayDialogue();
             }
             else
             {
@@ -77,17 +82,20 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void DisplayDialogue(Dialogue current)
+    private void DisplayDialogue()
     {
-        if (current != null)
+        if (currentDialogue != null)
         {
+            // characterImage.sprite = current.characterImage; 
+            characterNameText.text = currentDialogue.characterName;
+            dialogueText.text = currentDialogue.line;
             ClearCards();
 
-            for (int i = 0; i < current.options.Count; i++)
+            for (int i = 0; i < currentDialogue.options.Count; i++)
             {
                 GameObject card = Instantiate(cardPrefab, cardParent);
                 Card dialogueCard = card.GetComponent<Card>();
-                dialogueCard.Setup(current.options[i].text, i, this);
+                dialogueCard.Setup(currentDialogue, i, this);
             }
         }
         else
@@ -115,5 +123,21 @@ public class DialogueManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    public void StartDialogue(string npcName)
+    {
+        LoadNpcDialogue(npcName);
+        SetDialogue("start");
+        ShowDialoguePanel(true);
+    }
+    private void ShowDialoguePanel(bool isVisible)
+    {
+        dialoguePanel.SetActive(isVisible);
+    }
+    public void EndDialogue()
+    {
+        ShowDialoguePanel(false);
+        currentDialogue = null;
     }
 }

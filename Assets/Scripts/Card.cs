@@ -6,9 +6,9 @@ public class Card : MonoBehaviour
     public Button button;
     private int optionIndex;
 
-    public void Setup(string text, int index, DialogueManager dialogueManager)
+    public void Setup(Dialogue current, int index, DialogueManager dialogueManager)
     {
-        optionText.text = text;
+        optionText.text = current.options[index].text;
         optionIndex = index;
         button.onClick.AddListener(() =>
         {
